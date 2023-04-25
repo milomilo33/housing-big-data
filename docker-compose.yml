@@ -46,11 +46,17 @@ services:
       - 7077:7077
     environment:
       - PYSPARK_PYTHON=python3
+      - MONGO_URI=mongodb://root:example@mongodb-housing:27017/
+      # - SPARK_CLASSPATH=/spark/jars/mongo-spark-connector.jar
     env_file:
       - ./docker-spark/hadoop.env
     volumes: 
       - ./batch-analysis:/home/housing-big-data/batch-analysis
       - ./real-time-analysis:/home/housing-big-data/real-time-analysis
+      # - ./docker-spark/mongo-spark-connector.jar:/spark/jars/mongo-spark-connector.jar
+    command: /bin/bash -c "python3 -m pip install pymongo && tail -f /dev/null"
+    # tty: true
+    # stdin_open: true
 
   spark-worker1:
     image: bde2020/spark-worker:3.0.1-hadoop3.2
@@ -87,6 +93,18 @@ services:
       - ./docker-spark/conf.dist:/usr/share/hue/desktop/conf
     depends_on: 
       - namenode
+
+  mongodb-housing:
+    image: mongo
+    container_name: mongodb-housing
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: housing_data
+    volumes:
+        - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
 
 volumes:
