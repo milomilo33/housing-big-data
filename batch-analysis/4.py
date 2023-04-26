@@ -63,21 +63,13 @@ year_window = Window.partitionBy('county').orderBy(asc('year'))
 df = df.withColumn('avg_price', avg('price').over(county_year_window))
 df = df.withColumn('previous_year', col('year') - 1)
 df = df.dropDuplicates(['county', 'year'])
-df = df.withColumn('prev_year_avg_price', lag('avg_price'))
+df = df.withColumn('prev_year_avg_price', lag('avg_price').over(year_window))
 df = df.withColumn('price_change', col('avg_price') - col('prev_year_avg_price'))
 df = df.withColumn('percentage_change', round(((col('avg_price') - col('prev_year_avg_price')) / col('prev_year_avg_price')) * 100, 2)) \
         .orderBy(asc('county'), asc('year'))
+df = df.select('county', 'year', 'avg_price', 'previous_year', 'prev_year_avg_price', 'price_change', 'percentage_change')
 
 df.show()
-
-# # Use the lag function to get the previous year's average price for each county
-# df = df.withColumn('prev_avg_price', lag(avg('price').over(county_window)).over(county_window))
-
-# # Calculate the price change from the previous year
-# df_with_change = df_with_lag.withColumn('price_change', round(avg('price') - col('prev_avg_price'), 2))
-
-# # Group by county and year to get the average price change per year for each county
-# result = df_filtered.groupBy('county', 'year').agg(avg('price_change'))
 
 # save to MongoDB
 df.write.format("com.mongodb.spark.sql.DefaultSource") \
