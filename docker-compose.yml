@@ -105,7 +105,28 @@ services:
       MONGO_INITDB_DATABASE: housing_data
     volumes:
         - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
 
+  metabase:
+    image: metabase/metabase
+    container_name: metabase
+    ports:
+      - "3000:3000"
+    # environment:
+    #   - MB_DB_TYPE=mongo
+    #   - MB_DB_DBNAME=housing_data
+    #   - MB_DB_PORT=27017
+    #   - MB_DB_USER=root
+    #   - MB_DB_PASS=example
+    #   - MB_DB_HOST=mongodb-housing
+    depends_on:
+      mongodb-housing:
+        condition: service_healthy
 
 volumes:
   hadoop_namenode:
