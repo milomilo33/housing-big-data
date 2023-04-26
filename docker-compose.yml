@@ -163,6 +163,7 @@ services:
     container_name: crime-data-producer
     volumes:
       - ./crime-data-producer:/app:ro
+      - ./util:/dataset
     environment:
       KAFKA_BROKER: kafka:9092
       KAFKA_TOPIC: crime-data
