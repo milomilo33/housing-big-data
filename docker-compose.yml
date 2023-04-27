@@ -54,7 +54,7 @@ services:
       - ./batch-analysis:/home/housing-big-data/batch-analysis
       - ./real-time-analysis:/home/housing-big-data/real-time-analysis
       # - ./docker-spark/mongo-spark-connector.jar:/spark/jars/mongo-spark-connector.jar
-    command: /bin/bash -c "python3 -m pip install pymongo && tail -f /dev/null"
+    command: /bin/bash -c "python3 -m pip install pymongo requests && tail -f /dev/null"
     # tty: true
     # stdin_open: true
 
