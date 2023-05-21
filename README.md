@@ -22,7 +22,7 @@ $ ./spark/bin/spark-submit --packages org.mongodb.spark:mongo-spark-connector_2.
 
 For data visualization, open _localhost:3000_.
 
-For real-time analysis, download extract the downloaded crime dataset in _/util_ and run _python combine_shuffle_csv.py_ in _/util_. Then:
+For real-time analysis, extract the downloaded crime dataset in _/util_ and run _python combine_shuffle_csv.py_ in _/util_. Then:
 
 ```
 $ ./spark/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.1 /home/housing-big-data/real-time-analysis/${JOB_NAME}.py
