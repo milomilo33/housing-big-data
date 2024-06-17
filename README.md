@@ -1,7 +1,7 @@
 ﻿# Batch and Real-Time Analysis of Housing Prices and Crime Data
 This project aims to perform batch analysis of a large dataset consisting of historical housing price data, and real-time analysis of streamed crime data in the UK (as well as a combination of the two). This is achieved by simulating a big data architecture on a single machine by means of containerization.
 
-Apache Spark is used for data analysis. Apache Kafka is used for streaming real-time data.
+**Apache Spark** is used for data analysis. **Apache Kafka** is used for streaming real-time data.
 
 Housing prices dataset can be downloaded [here](https://www.gov.uk/government/statistical-data-sets/price-paid-data-downloads). It should be located in _/primary-dataset_.
 
